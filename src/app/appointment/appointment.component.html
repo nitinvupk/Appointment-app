@@ -1,0 +1,110 @@
+<div class="container mt-5">
+    <!-- <div class="row"> -->
+    <h1 class="mb-3 text-center">Appointment Form</h1>
+    <form class="border p-3" [formGroup]="appointmentForm" (ngSubmit)="onSubmit()">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label>First Name</label>
+                    <input type="text" formControlName="firstName" class="form-control" autocomplete="off"
+                        [ngClass]="{ 'is-invalid': submitted && f.firstName.errors }" />
+                    <div *ngIf="submitted && f.firstName.errors" class="invalid-feedback">
+                        <div *ngIf="f.firstName.errors.required">First Name is required</div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label>Last Name</label>
+                    <input type="text" formControlName="lastName" class="form-control" autocomplete="off"
+                        [ngClass]="{ 'is-invalid': submitted && f.lastName.errors }" />
+                    <div *ngIf="submitted && f.lastName.errors" class="invalid-feedback">
+                        <div *ngIf="f.lastName.errors.required">Last Name is required</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label>Phone</label>
+                    <input type="text" formControlName="phone" class="form-control" autocomplete="off"
+                        [ngClass]="{ 'is-invalid': submitted && f.phone.errors }" />
+                    <div *ngIf="submitted && f.phone.errors" class="invalid-feedback">
+                        <div *ngIf="f.phone.errors.required">Phone is required</div>
+                        <div *ngIf="f.phone.errors.minlength">Phone must be at least 10 digits</div>
+                        <div *ngIf="f.phone.errors.maxlength">Phone must not be more than 10 digits</div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="text" formControlName="email" class="form-control" autocomplete="off"
+                        [ngClass]="{ 'is-invalid': submitted && f.email.errors }" />
+                    <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
+                        <div *ngIf="f.email.errors.required">Email is required</div>
+                        <div *ngIf="f.email.errors.email">Email must be a valid email address</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <label>Select Date</label>
+                <input type="text" placeholder="Datepicker" formControlName="date" class="form-control" 
+                bsDatepicker [bsConfig]="{ isAnimated: true }" [minDate]="minDate">
+                <div *ngIf="submitted && f.date.errors" class="invalid-feedback">
+                    <div *ngIf="f.date.errors.required">Date is required</div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <label>Select Time</label>
+                <timepicker formControlName="time"></timepicker>
+                <div *ngIf="submitted && f.date.errors" class="invalid-feedback">
+                    <div *ngIf="f.date.errors.required">Date is required</div>
+                </div>
+            </div>
+        </div>
+        <div class="form-group mt-3">
+            <button class="btn btn-primary">Save</button>
+        </div>
+    </form>
+
+    <h3 class="mt-5">List of Appointments</h3>
+    <div class="table-responsive mb-5">
+        <table class="table table-bordered text-center">
+            <thead>
+                <tr>
+                    <th scope="col">S.NO</th>
+                    <th scope="col">First Name</th>
+                    <th scope="col">Last Name</th>
+                    <th scope="col">Phone</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Date</th>
+                    <th scope="col">Time</th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody *ngIf="displayAppointmentArr.length !== 0">
+                <tr *ngFor="let appointment of displayAppointmentArr; let i = index;">
+                    <th scope="row"> {{i+1}}</th>
+                    <td>{{appointment.firstName}}</td>
+                    <td>{{appointment.lastName}}</td>
+                    <td>{{appointment.phone}}</td>
+                    <td>{{appointment.email}}</td>
+                    <td>{{appointment.date}}</td>
+                    <td>{{appointment.time | date:"HH:mm"}}</td>
+                    <td><button class="btn btn-danger btn-small" (click)="onDelete(appointment.firstName)">delete</button></td>
+                </tr>
+            </tbody>
+            <tbody *ngIf="displayAppointmentArr.length === 0">
+                <tr>
+                  <td colspan="8"> Appointments not found</td>
+                </tr>
+              </tbody>
+        </table>
+    </div>
+    <!-- </div> -->
+</div>
